@@ -162,4 +162,4 @@ docker run -e AWS_PROFILE=<something> -v ~/.aws:/home/app/.aws -p 9000:9000 --rm
 docker run -e AWS_PROFILE=<something> -v ~/.aws:/home/app/.aws -p 9000:9000 --rm ghcr.io/aws-exporters/prometheus-ecr-exporter
 ```
 
-Now go to: http://localhost:9000/metrics
+Once initial metrics collection is complete, go to: http://localhost:9000/metrics
