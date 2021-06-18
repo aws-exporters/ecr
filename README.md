@@ -104,6 +104,25 @@ running image.
 #### Example Prometheus Queries
 **Coming Soon**
 
+### Required IAM Permissions
+You'll require a role with the foloowing IAM permissions:
+```
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ecr:DescribeImages",
+        "ecr:DescribeRegistry",
+        "ecr:DescribeRepositories"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+```
+
 ### Error Handling
 Currently, there is very little in the way of error handling and all stack traces
 are thrown out to the console. This will be improved as issues are encountered.
@@ -129,10 +148,13 @@ pip install -e .
 ecr_exporter
 ```
 
-2. Locally with Docker:
+2. Locally with Docker build:
 ```
 docker build . -t ecr_exporter
 docker run -e AWS_PROFILE=<something> -v ~/.aws:/home/app/.aws --rm ecr_exporter
 ```
 
-
+3. Locally with hosted Docker image:
+```
+docker run -e AWS_PROFILE=<something> -v ~/.aws:/home/app/.aws --rm ghcr.io/aws-exporters/prometheus-ecr-exporter
+```
