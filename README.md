@@ -12,22 +12,17 @@ A Prometheus exporter for AWS ECR.
 ECR repositories and images have a lot of useful information, image sizes, repository
 configuration, scan results... I'm sure there will be more.
 
-Information that might be useful to display in some way on team based dashboards
-alongside things like Kubernetes workload availability and Istio traffic metrics.
+Information that might be useful to display on team based dashboards alongside
+Kubernetes workload availability and Istio traffic metrics.
 
 ## Technical Design
-This exporter makes use of `boto3` to query ECR for repositories and images, in
-an attempt to be kind to the AWS APIs, results are cached and refreshed every
+This exporter makes use of `boto3` to query ECR for repositories and images.
+
+To be kind to the AWS APIs, results are cached and refreshed in the background every
 10 minutes (by default).
 
-This is built as, and designed to run as a Docker container in Kubernetes using
-the underlying instance IAM role or an IRSA role.
-
-It uses the HTTP server provided by the `prom_client` library which exposes metrics
-on a given port and doesn't care about paths.
-
 ### Configuration
-Configuration is purely through environment variables:
+Configuration with environment variables:
 
 | Variable | Description | Default | Example |
 | -------- | ----------- | ------- | ------- |
@@ -38,11 +33,11 @@ Configuration is purely through environment variables:
 | `LOG_LEVEL` | How much or little logging do you want | `INFO` | `DEBUG` |
 
 ### Exported Metrics
-The ECR related metrics currently exported are:
+The metrics currently exported are:
 
 #### `ecr_repository_count`
 - **Type:** Gauge
-- **Description:** A total count of all repositories in this ECR registry
+- **Description:** The count of all repositories in this ECR registry
 - **Example:**
 ```
 # HELP ecr_repository_count Total count of all ECR repositories
@@ -52,7 +47,7 @@ ecr_repository_count{registry_id="112233445566"} 171.0
 
 #### `ecr_repository_info`
 - **Type:** Info (Gauge)
-- **Description:** Useful key/value pairs relating to each repository
+- **Description:** Key/value labels relating to each repository
 - **Example:**
 ```
 # HELP ecr_repository_info ECR repository information
@@ -66,7 +61,7 @@ ecr_repository_info{encryption_type="AES256",name="parcel-bird",registry_id="112
 
 #### `ecr_image_size_in_bytes`
 - **Type:** Gauge
-- **Description:** The size of each TAGGED image in each repository
+- **Description:** The size in bytes of each TAGGED image in each repository
 - **Example:**
 ```
 # HELP ecr_image_size_in_bytes The size of an image in bytes
@@ -82,7 +77,7 @@ ecr_image_size_in_bytes{digest="sha256:9f47a709e9bea292ce1906f216df5f080493403b4
 
 #### `ecr_image_scan_severity_count`
 - **Type:** Gauge
-- **Description:** A count of scan results for each severity per image/tag
+- **Description:** Scan result counts per image/tag/ by severity
 - **Example:**
 ```
 # HELP ecr_image_scan_severity_count ECR image scan summary results
@@ -99,10 +94,9 @@ ecr_image_scan_severity_count{digest="sha256:f340879c042e88e08d7540c7ec26fb08958
 ....
 ```
 
-With the above metrics it would be easily, well, it would be possible to join metrics
-to show things like whether or not your repository is set to scan of push, the number of images
-in your repository, the result summaries for currently running images. The size of the currently
-running image.
+It should be possible to join metrics to show things like whether or not your repository is set
+to scan on push, the number of images in your repository, the size and scan result summaries for currently
+running images.
 
 #### Example Prometheus Queries
 **Coming Soon**
