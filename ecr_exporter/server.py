@@ -7,7 +7,7 @@ import signal
 from pythonjsonlogger import jsonlogger
 from prometheus_client import start_http_server, Gauge
 from prometheus_client.core import REGISTRY
-from collector import ECRMetricsCollector
+from ecr_exporter.collector import ECRMetricsCollector
 
 
 def config_from_env():
