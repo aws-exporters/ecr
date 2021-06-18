@@ -36,3 +36,17 @@ Configuration is purely through environment variables:
 ### Error Handling
 Currently, there is very little in the way of error handling and all stack traces
 are thrown out to the console. This will be improved as issues are encountered.
+
+### Running Locally
+There are a number of ways to run this project locally.
+
+1. Directly with Python:
+```
+python3 -m venv venv
+source venv/bin/activate
+pip install --upgrade pip
+pip install -e .
+# export any options here
+ecr_exporter
+```
+
