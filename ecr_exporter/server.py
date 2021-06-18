@@ -3,6 +3,7 @@ import logging
 import time
 import sys
 import signal
+import traceback
 
 from pythonjsonlogger import jsonlogger
 from prometheus_client import start_http_server, Gauge
@@ -33,48 +34,52 @@ def setup_logging(log_level):
 
 
 def main(config):
-    shutdown = False
+    try:
+        shutdown = False
 
-    # Setup logging
-    setup_logging(config["log_level"])
-    logger = logging.getLogger()
+        # Setup logging
+        setup_logging(config["log_level"])
+        logger = logging.getLogger()
 
-    # Register signal handler
-    def _on_sigterm(signal, frame):
-        logging.getLogger().warning("exporter is shutting down")
-        nonlocal shutdown
-        shutdown = True
+        # Register signal handler
+        def _on_sigterm(signal, frame):
+            logging.getLogger().warning("exporter is shutting down")
+            nonlocal shutdown
+            shutdown = True
 
-    signal.signal(signal.SIGINT, _on_sigterm)
-    signal.signal(signal.SIGTERM, _on_sigterm)
+        signal.signal(signal.SIGINT, _on_sigterm)
+        signal.signal(signal.SIGTERM, _on_sigterm)
 
-    # Register our custom collector
-    logger.warning("collecting initial metrics")
-    ecr_collector = ECRMetricsCollector(config["registry_id"])
-    REGISTRY.register(ecr_collector)
+        # Register our custom collector
+        logger.warning("collecting initial metrics")
+        ecr_collector = ECRMetricsCollector(config["registry_id"])
+        REGISTRY.register(ecr_collector)
 
-    # Set the up metric value, which will be steady to 1 for the entire app lifecycle
-    upMetric = Gauge(
-        "ecr_repository_exporter_up", "always 1 - can by used to check if it's running"
-    )
+        # Set the up metric value, which will be steady to 1 for the entire app lifecycle
+        upMetric = Gauge(
+            "ecr_repository_exporter_up", "always 1 - can by used to check if it's running"
+        )
 
-    upMetric.set(1)
+        upMetric.set(1)
 
-    # Start server
-    start_http_server(config["port"], config["host"])
-    logger.warning(f"exporter listening on http://{config['host']}:{config['port']}/")
+        # Start server
+        start_http_server(config["port"], config["host"])
+        logger.warning(f"exporter listening on http://{config['host']}:{config['port']}/")
 
-    logger.info(f"caches will be refreshed every {config['refresh_interval']} seconds")
-    loop_count = 0
-    while not shutdown:
-        loop_count += 1
-        time.sleep(1)
+        logger.info(f"caches will be refreshed every {config['refresh_interval']} seconds")
+        loop_count = 0
+        while not shutdown:
+            loop_count += 1
+            time.sleep(1)
 
-        if loop_count >= config["refresh_interval"]:
-            ecr_collector.refresh_caches()
-            loop_count = 0
+            if loop_count >= config["refresh_interval"]:
+                ecr_collector.refresh_caches()
+                loop_count = 0
 
-    logger.info("exporter has shutdown")
+        logger.info("exporter has shutdown")
+    except:
+        logger.exception(f"Uncaught Exception: {traceback.format_exc()}")
+        sys.exit(1)
 
 
 def run():
