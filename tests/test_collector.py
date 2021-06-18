@@ -1,6 +1,4 @@
-import boto3
 import pytest
-from botocore.stub import Stubber
 
 from ecr_exporter.collector import ECRMetricsCollector
 

@@ -12,11 +12,11 @@ from collector import ECRMetricsCollector
 
 def config_from_env():
     config = {}
-    config['port'] = int(os.getenv('APP_PORT', 9000))
-    config['host'] = os.getenv('APP_HOST', '0.0.0.0')
-    config['log_level'] = os.getenv('LOG_LEVEL', 'INFO')
-    config['registry_id'] = os.getenv('ECR_REGISTRY_ID', None)
-    config['refresh_interval'] = int(os.getenv('CACHE_REFRESH_INTERVAL', 600))
+    config["port"] = int(os.getenv("APP_PORT", 9000))
+    config["host"] = os.getenv("APP_HOST", "0.0.0.0")
+    config["log_level"] = os.getenv("LOG_LEVEL", "INFO")
+    config["registry_id"] = os.getenv("ECR_REGISTRY_ID", None)
+    config["refresh_interval"] = int(os.getenv("CACHE_REFRESH_INTERVAL", 600))
 
     return config
 
@@ -26,7 +26,7 @@ def setup_logging(log_level):
     logger.setLevel(log_level)
     logHandler = logging.StreamHandler(sys.stdout)
     formatter = jsonlogger.JsonFormatter(
-        fmt='%(asctime)s | %(levelname)s | %(name)s | %(message)s'
+        fmt="%(asctime)s | %(levelname)s | %(name)s | %(message)s"
     )
     logHandler.setFormatter(formatter)
     logger.addHandler(logHandler)
@@ -36,12 +36,12 @@ def main(config):
     shutdown = False
 
     # Setup logging
-    setup_logging(config['log_level'])
+    setup_logging(config["log_level"])
     logger = logging.getLogger()
 
     # Register signal handler
     def _on_sigterm(signal, frame):
-        logging.getLogger().warning('exporter is shutting down')
+        logging.getLogger().warning("exporter is shutting down")
         nonlocal shutdown
         shutdown = True
 
@@ -49,19 +49,19 @@ def main(config):
     signal.signal(signal.SIGTERM, _on_sigterm)
 
     # Register our custom collector
-    logger.warning('collecting initial metrics')
-    ecr_collector = ECRMetricsCollector(config['registry_id'])
+    logger.warning("collecting initial metrics")
+    ecr_collector = ECRMetricsCollector(config["registry_id"])
     REGISTRY.register(ecr_collector)
 
     # Set the up metric value, which will be steady to 1 for the entire app lifecycle
     upMetric = Gauge(
-        'ecr_repository_exporter_up',
-        'always 1 - can by used to check if it\'s running')
+        "ecr_repository_exporter_up", "always 1 - can by used to check if it's running"
+    )
 
     upMetric.set(1)
 
     # Start server
-    start_http_server(config['port'], config['host'])
+    start_http_server(config["port"], config["host"])
     logger.warning(f"exporter listening on http://{config['host']}:{config['port']}/")
 
     logger.info(f"caches will be refreshed every {config['refresh_interval']} seconds")
@@ -70,16 +70,16 @@ def main(config):
         loop_count += 1
         time.sleep(1)
 
-        if loop_count >= config['refresh_interval']:
+        if loop_count >= config["refresh_interval"]:
             ecr_collector.refresh_caches()
             loop_count = 0
-        
-    logger.info('exporter has shutdown')
+
+    logger.info("exporter has shutdown")
 
 
 def run():
     main(config_from_env())
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     run()
