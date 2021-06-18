@@ -3,7 +3,7 @@ import logging
 import time
 import sys
 import signal
-from typing import List
+
 from pythonjsonlogger import jsonlogger
 from prometheus_client import start_http_server, Gauge
 from prometheus_client.core import REGISTRY
@@ -17,8 +17,9 @@ def config_from_env():
     config['log_level'] = os.getenv('LOG_LEVEL', 'INFO')
     config['registry_id'] = os.getenv('ECR_REGISTRY_ID', None)
     config['refresh_interval'] = int(os.getenv('CACHE_REFRESH_INTERVAL', 600))
-    
+
     return config
+
 
 def setup_logging(log_level):
     logger = logging.getLogger()
@@ -30,14 +31,14 @@ def setup_logging(log_level):
     logHandler.setFormatter(formatter)
     logger.addHandler(logHandler)
 
-    
+
 def main(config):
     shutdown = False
 
     # Setup logging
     setup_logging(config['log_level'])
     logger = logging.getLogger()
-    
+
     # Register signal handler
     def _on_sigterm(signal, frame):
         logging.getLogger().warning('exporter is shutting down')
@@ -68,16 +69,17 @@ def main(config):
     while not shutdown:
         loop_count += 1
         time.sleep(1)
-        
+
         if loop_count >= config['refresh_interval']:
             ecr_collector.refresh_caches()
             loop_count = 0
-            
+        
     logger.info('exporter has shutdown')
 
 
 def run():
     main(config_from_env())
+
 
 if __name__ == '__main__':
     run()
