@@ -57,16 +57,21 @@ def main(config):
 
         # Set the up metric value, which will be steady to 1 for the entire app lifecycle
         upMetric = Gauge(
-            "ecr_repository_exporter_up", "always 1 - can by used to check if it's running"
+            "ecr_repository_exporter_up",
+            "always 1 - can by used to check if it's running",
         )
 
         upMetric.set(1)
 
         # Start server
         start_http_server(config["port"], config["host"])
-        logger.warning(f"exporter listening on http://{config['host']}:{config['port']}/")
+        logger.warning(
+            f"exporter listening on http://{config['host']}:{config['port']}/"
+        )
 
-        logger.info(f"caches will be refreshed every {config['refresh_interval']} seconds")
+        logger.info(
+            f"caches will be refreshed every {config['refresh_interval']} seconds"
+        )
         loop_count = 0
         while not shutdown:
             loop_count += 1
