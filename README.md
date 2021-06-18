@@ -1,3 +1,4 @@
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![CodeQL](https://github.com/aws-exporters/ecr/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/aws-exporters/ecr/actions/workflows/codeql-analysis.yml)
 [![Test and Lint](https://github.com/aws-exporters/ecr/actions/workflows/test-and-lint.yaml/badge.svg)](https://github.com/aws-exporters/ecr/actions/workflows/test-and-lint.yaml)
 
