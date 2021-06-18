@@ -23,5 +23,5 @@ jobs:
         with:
           push: true
           tags: |
-            ghcr.io/${{ github.repository }}/octo-image:${{ github.sha }}
-            ghcr.io/${{ github.repository }}/octo-image:${{ github.ref }}
+            ghcr.io/${{ github.repository }}/prometheus-ecr-exporter:${{ github.sha }}
+            ghcr.io/${{ github.repository }}/prometheus-ecr-exporter:${{ github.ref }}
