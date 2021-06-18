@@ -77,7 +77,7 @@ def main(config):
                 loop_count = 0
 
         logger.info("exporter has shutdown")
-    except:
+    except Exception:
         logger.exception(f"Uncaught Exception: {traceback.format_exc()}")
         sys.exit(1)
 
