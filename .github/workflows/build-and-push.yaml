@@ -10,7 +10,7 @@ jobs:
       packages: write
       contents: read
     env:
-      GITHUB_SHORT_SHA: ${GITHUB_SHA::8}
+      GITHUB_SHORT_SHA: ${GITHUB_SHA::7}
       GITHUB_REF_NAME: ${GITHUB_REF##*/}
     steps:
       - name: Check out the repo
