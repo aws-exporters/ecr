@@ -57,7 +57,7 @@ def main(config):
 
         # Set the up metric value, which will be steady to 1 for the entire app lifecycle
         upMetric = Gauge(
-            "ecr_repository_exporter_up",
+            "aws_ecr_repository_exporter_up",
             "always 1 - can by used to check if it's running",
         )
 
