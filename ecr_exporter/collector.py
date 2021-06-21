@@ -33,7 +33,7 @@ class ECRMetricsCollector:
             self.logger.debug("fetched repositories from cache")
 
         repository_count_metric = GaugeMetricFamily(
-            "ecr_repository_count",
+            "aws_ecr_repository_count",
             "Total count of all ECR repositories",
             labels=["registry_id"],
         )
@@ -41,7 +41,7 @@ class ECRMetricsCollector:
         repository_count_metric.add_metric([self.registry_id], len(repositories))
 
         repository_info_metrics = InfoMetricFamily(
-            "ecr_repository", "ECR repository information"
+            "aws_ecr_repository", "ECR repository information"
         )
 
         for repo in repositories:
@@ -62,13 +62,13 @@ class ECRMetricsCollector:
             )
 
         image_size_metrics = GaugeMetricFamily(
-            "ecr_image_size_in_bytes",
+            "aws_ecr_image_size_in_bytes",
             "The size of an image in bytes",
             labels=["name", "tag", "digest", "registry_id"],
         )
 
         image_scan_metrics = GaugeMetricFamily(
-            "ecr_image_scan_severity_count",
+            "aws_ecr_image_scan_severity_count",
             "ECR image scan summary results",
             labels=["name", "tag", "digest", "registry_id", "severity"],
         )
