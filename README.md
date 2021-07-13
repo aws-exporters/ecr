@@ -75,6 +75,20 @@ aws_ecr_image_size_in_bytes{digest="sha256:9f47a709e9bea292ce1906f216df5f0804934
 ....
 ```
 
+#### `aws_ecr_image_pushed_at_timestamp_seconds`
+- **Type:** Gauge
+- **Description:** The unix timestamp that this image was pushed at
+- **Example:**
+```
+# HELP aws_ecr_image_pushed_at_timestamp_seconds The unix timestamp that this image was pushed at
+# TYPE aws_ecr_image_pushed_at_timestamp_seconds gauge
+aws_ecr_image_pushed_at_timestamp_seconds{digest="sha256:046c3c95cfd4ab660947885571130d34fef6fd5ddabb3ef84ac7fd7b79e4b8f1",name="chimunk",registry_id="486979256902",tag="1df508a3"} 1.601994911e+09
+aws_ecr_image_pushed_at_timestamp_seconds{digest="sha256:10bcbc280f1bc017e767a2fc1ecb37085979dd0807fe312411ee9d3abc78f0b6",name="savage-lands",registry_id="486979256902",tag="v1.0.41"} 1.593518011e+09
+aws_ecr_image_pushed_at_timestamp_seconds{digest="sha256:b869d1ffa62b8aba6ac3e26056acacf276425287513bcc77317fa9d2b607c054",name="luna-tuna",registry_id="486979256902",tag="8fd066ee"} 1.596207388e+09
+....
+....
+```
+
 #### `aws_ecr_image_scan_severity_count`
 - **Type:** Gauge
 - **Description:** Scan result counts per image/tag/ by severity
@@ -90,6 +104,20 @@ aws_ecr_image_scan_severity_count{digest="sha256:981a9c17106eee1099d815f82dfb45f
 aws_ecr_image_scan_severity_count{digest="sha256:981a9c17106eee1099d815f82dfb45f4e8d016a63816fec92f290f1af0117c37",name="birdbath",registry_id="112233445566",severity="INFORMATIONAL",tag="227c8031"} 5.0
 aws_ecr_image_scan_severity_count{digest="sha256:981a9c17106eee1099d815f82dfb45f4e8d016a63816fec92f290f1af0117c37",name="birdbath",registry_id="112233445566",severity="LOW",tag="227c8031"} 16.0
 aws_ecr_image_scan_severity_count{digest="sha256:f340879c042e88e08d7540c7ec26fb0895814743aefbdd4e62f63b5e41e9f1cf",name="birdbath",registry_id="112233445566",severity="MEDIUM",tag="77b36acb"} 4.0
+....
+....
+```
+
+#### `aws_ecr_image_scan_completed_at_timestamp_seconds`
+- **Type:** Gauge
+- **Description:** The unix timestamp when the scan was completed
+- **Example:**
+```
+# HELP aws_ecr_image_scan_completed_at_timestamp_seconds The unix timestamp when the scan was completed
+# TYPE aws_ecr_image_scan_completed_at_timestamp_seconds gauge
+aws_ecr_image_scan_completed_at_timestamp_seconds{digest="sha256:0b26628c113374546c4790e01bce65c3f4642db063286f16fe13e256923b2689",name="moose-juice",registry_id="486979256902",tag="5a35d50d"} 1.617208126e+09
+aws_ecr_image_scan_completed_at_timestamp_seconds{digest="sha256:a910ed7e15cb5fc7e5f0f2294f8028b56689be563bd1d352a4254197739dfa8e",name="super-goggles",registry_id="486979256902",tag="2faa6445"} 1.618313952e+09
+aws_ecr_image_scan_completed_at_timestamp_seconds{digest="sha256:981a9c17106eee1099d815f82dfb45f4e8d016a63816fec92f290f1af0117c37",name="foot-massage",registry_id="486979256902",tag="227c8031"} 1.622629411e+09
 ....
 ....
 ```

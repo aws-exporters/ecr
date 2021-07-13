@@ -4,6 +4,7 @@ import logging
 
 from prometheus_client.core import InfoMetricFamily, GaugeMetricFamily
 from cachetools import TTLCache
+from datetime import timezone
 
 
 def _ecr_client():
@@ -67,10 +68,22 @@ class ECRMetricsCollector:
             labels=["name", "tag", "digest", "registry_id"],
         )
 
+        image_push_timestamp_metrics = GaugeMetricFamily(
+            "aws_ecr_image_pushed_at_timestamp_seconds",
+            "The unix timestamp that this image was pushed at",
+            labels=["name", "tag", "digest", "registry_id"],
+        )
+
         image_scan_metrics = GaugeMetricFamily(
             "aws_ecr_image_scan_severity_count",
             "ECR image scan summary results",
             labels=["name", "tag", "digest", "registry_id", "severity"],
+        )
+
+        image_scan_timestamp_metrics = GaugeMetricFamily(
+            "aws_ecr_image_scan_completed_at_timestamp_seconds",
+            "The unix timestamp when the scan was completed",
+            labels=["name", "tag", "digest", "registry_id"],
         )
 
         for repo in repositories:
@@ -95,6 +108,19 @@ class ECRMetricsCollector:
                             ],
                             int(image["imageSizeInBytes"]),
                         )
+                        image_push_timestamp_metrics.add_metric(
+                            [
+                                repo["repositoryName"],
+                                tag,
+                                image["imageDigest"],
+                                self.registry_id,
+                            ],
+                            int(
+                                image["imagePushedAt"]
+                                .replace(tzinfo=timezone.utc)
+                                .timestamp()
+                            ),
+                        )
 
                     scan_summary = image.get("imageScanFindingsSummary")
                     if scan_summary and scan_summary.get("findingSeverityCounts"):
@@ -110,12 +136,27 @@ class ECRMetricsCollector:
                                 ],
                                 int(severity_counts[severity]),
                             )
+                        image_scan_timestamp_metrics.add_metric(
+                            [
+                                repo["repositoryName"],
+                                tag,
+                                image["imageDigest"],
+                                self.registry_id,
+                            ],
+                            int(
+                                scan_summary["imageScanCompletedAt"]
+                                .replace(tzinfo=timezone.utc)
+                                .timestamp()
+                            ),
+                        )
 
         return [
             repository_count_metric,
             repository_info_metrics,
             image_size_metrics,
+            image_push_timestamp_metrics,
             image_scan_metrics,
+            image_scan_timestamp_metrics,
         ]
 
     def refresh_repository_cache(self):
