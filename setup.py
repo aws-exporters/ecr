@@ -3,7 +3,7 @@
 #  A Prometheus exporter for AWS ECR
 #
 #  Author:  Tim Birkett <tim.birkettdev@devopsmakers.com>
-#  Website: https://github.com/devopsmakers/python-grafannotate
+#  Website: https://github.com/aws-exporters/ecr
 #  License: MIT License (see LICENSE file)
 
 import codecs
@@ -18,7 +18,7 @@ dependencies = [
 
 setup(
     name="ecr_exporter",
-    version="0.1.1",
+    version="0.1.2",
     url="https://github.com/aws-exporters/ecr",
     license="MIT",
     author="Tim Birkett",
