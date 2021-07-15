@@ -62,28 +62,30 @@ class ECRMetricsCollector:
                 },
             )
 
+        image_common_label_keys = ["name", "tag", "digest", "registry_id", "image"]
+
         image_size_metrics = GaugeMetricFamily(
             "aws_ecr_image_size_in_bytes",
             "The size of an image in bytes",
-            labels=["name", "tag", "digest", "registry_id"],
+            labels=image_common_label_keys,
         )
 
         image_push_timestamp_metrics = GaugeMetricFamily(
             "aws_ecr_image_pushed_at_timestamp_seconds",
             "The unix timestamp that this image was pushed at",
-            labels=["name", "tag", "digest", "registry_id"],
+            labels=image_common_label_keys,
         )
 
         image_scan_metrics = GaugeMetricFamily(
             "aws_ecr_image_scan_severity_count",
             "ECR image scan summary results",
-            labels=["name", "tag", "digest", "registry_id", "severity"],
+            labels=image_common_label_keys + ["severity"],
         )
 
         image_scan_timestamp_metrics = GaugeMetricFamily(
             "aws_ecr_image_scan_completed_at_timestamp_seconds",
             "The unix timestamp when the scan was completed",
-            labels=["name", "tag", "digest", "registry_id"],
+            labels=image_common_label_keys,
         )
 
         for repo in repositories:
@@ -99,22 +101,20 @@ class ECRMetricsCollector:
                 tags = image.get("imageTags")
                 if tags:
                     for tag in tags:
+                        image_common_label_values = [
+                            repo["repositoryName"],
+                            tag,
+                            image["imageDigest"],
+                            self.registry_id,
+                            f'{repo["repositoryUri"]}:{tag}',
+                        ]
+
                         image_size_metrics.add_metric(
-                            [
-                                repo["repositoryName"],
-                                tag,
-                                image["imageDigest"],
-                                self.registry_id,
-                            ],
+                            image_common_label_values,
                             int(image["imageSizeInBytes"]),
                         )
                         image_push_timestamp_metrics.add_metric(
-                            [
-                                repo["repositoryName"],
-                                tag,
-                                image["imageDigest"],
-                                self.registry_id,
-                            ],
+                            image_common_label_values,
                             int(
                                 image["imagePushedAt"]
                                 .replace(tzinfo=timezone.utc)
@@ -127,22 +127,11 @@ class ECRMetricsCollector:
                         severity_counts = scan_summary.get("findingSeverityCounts")
                         for severity in severity_counts:
                             image_scan_metrics.add_metric(
-                                [
-                                    repo["repositoryName"],
-                                    tag,
-                                    image["imageDigest"],
-                                    self.registry_id,
-                                    severity,
-                                ],
+                                image_common_label_values + [severity],
                                 int(severity_counts[severity]),
                             )
                         image_scan_timestamp_metrics.add_metric(
-                            [
-                                repo["repositoryName"],
-                                tag,
-                                image["imageDigest"],
-                                self.registry_id,
-                            ],
+                            image_common_label_values,
                             int(
                                 scan_summary["imageScanCompletedAt"]
                                 .replace(tzinfo=timezone.utc)
