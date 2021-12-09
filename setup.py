@@ -10,15 +10,15 @@ import codecs
 from setuptools import find_packages, setup
 
 dependencies = [
-    "boto3==1.17.95",
-    "prometheus-client==0.11.0",
-    "cachetools==4.2.2",
-    "python-json-logger==2.0.1",
+    "boto3==1.20.22",
+    "prometheus-client==0.12.0",
+    "cachetools==4.2.4",
+    "python-json-logger==2.0.2",
 ]
 
 setup(
     name="ecr_exporter",
-    version="0.1.3",
+    version="0.1.4",
     url="https://github.com/aws-exporters/ecr",
     license="MIT",
     author="Tim Birkett",

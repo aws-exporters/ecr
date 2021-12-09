@@ -150,24 +150,27 @@ class ECRMetricsCollector:
 
     def refresh_repository_cache(self):
         ecr_client = _ecr_client()
-        self.logger.info("refreshing repositories cache")
-        repositories = ecr_client.describe_repositories(
-            registryId=self.registry_id, maxResults=1000
-        )["repositories"]
-
+        self.logger.info("refreshing repositories cache")    
+        paginator = ecr_client.get_paginator('describe_repositories')
+        repository_iterator= paginator.paginate(
+            registryId=self.registry_id, PaginationConfig={'pageSize': 1000}
+        )
+        repositories = [repo for x in list(repository_iterator) for repo in x["repositories"]]
         self.logger.debug(f"caching {len(repositories)} repositories")
         self.repocache["cache"] = repositories
 
     def refresh_image_cache(self, repositories, repository_name=""):
         ecr_client = _ecr_client()
         self.logger.info("refreshing image cache")
+        paginator = ecr_client.get_paginator('describe_images')
         for repo in repositories:
-            images = ecr_client.describe_images(
+            image_iterator= paginator.paginate(
                 registryId=self.registry_id,
                 repositoryName=repo["repositoryName"],
                 filter={"tagStatus": "TAGGED"},
-                maxResults=1000,
-            )["imageDetails"]
+                PaginationConfig={'pageSize': 1000}
+            )
+            images = [image for x in list(image_iterator) for image in x["imageDetails"]]
 
             self.imagecache[repo["repositoryName"]] = images
             self.logger.debug(

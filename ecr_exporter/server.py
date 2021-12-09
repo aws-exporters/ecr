@@ -50,11 +50,6 @@ def main(config):
         signal.signal(signal.SIGINT, _on_sigterm)
         signal.signal(signal.SIGTERM, _on_sigterm)
 
-        # Register our custom collector
-        logger.warning("collecting initial metrics")
-        ecr_collector = ECRMetricsCollector(config["registry_id"])
-        REGISTRY.register(ecr_collector)
-
         # Set the up metric value, which will be steady to 1 for the entire app lifecycle
         upMetric = Gauge(
             "aws_ecr_repository_exporter_up",
@@ -62,13 +57,18 @@ def main(config):
         )
 
         upMetric.set(1)
+        
+        # Register our custom collector
+        logger.warning("collecting initial metrics")
+        ecr_collector = ECRMetricsCollector(config["registry_id"])
+        REGISTRY.register(ecr_collector)
 
         # Start server
         start_http_server(config["port"], config["host"])
         logger.warning(
             f"exporter listening on http://{config['host']}:{config['port']}/"
         )
-
+        
         logger.info(
             f"caches will be refreshed every {config['refresh_interval']} seconds"
         )
