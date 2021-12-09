@@ -57,7 +57,7 @@ def main(config):
         )
 
         upMetric.set(1)
-        
+
         # Register our custom collector
         logger.warning("collecting initial metrics")
         ecr_collector = ECRMetricsCollector(config["registry_id"])
@@ -68,7 +68,7 @@ def main(config):
         logger.warning(
             f"exporter listening on http://{config['host']}:{config['port']}/"
         )
-        
+
         logger.info(
             f"caches will be refreshed every {config['refresh_interval']} seconds"
         )
