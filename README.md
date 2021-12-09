@@ -127,7 +127,42 @@ to scan on push, the number of images in your repository, the size and scan resu
 running images.
 
 #### Example Prometheus Queries
-**Coming Soon**
+
+1. List all pods with container images with CRITICAL vulnerabilities:
+   ```
+   max by (namespace, container, image, pod) (kube_pod_container_info) * on (image) group_left(name, tag) aws_ecr_image_scan_severity_count{severity=~"CRITICAL"}
+   ```
+   
+2. List all container images (that have run) with CRITICAL vulnerabilities:
+   ```
+   max by (namespace, container, image) (kube_pod_container_info) * on (image) group_left(name, tag) aws_ecr_image_scan_severity_count{severity=~"CRITICAL"}
+   ```
+   
+3. List all pods running containers that have CRITICAL vulnerabilities:
+   ```
+   max by (pod) (kube_pod_container_status_running > 0) * on (pod) group_right() max by (pod, namespace, container, image) (kube_pod_container_info) * on (image) group_left(name, tag) aws_ecr_image_scan_severity_count{severity=~"CRITICAL"}
+   ```
+
+4. List all running containers that have CRITICAL vulnerabilities:
+   ```
+   max without (pod) (max by (pod) (kube_pod_container_status_running > 0) * on (pod) group_right() max by (pod, namespace, container, image) (kube_pod_container_info) * on (image) group_left(name, tag) aws_ecr_image_scan_severity_count{severity=~"CRITICAL"})
+   ```
+
+##### Example Prometheus Alert (for Slack)
+```
+groups:
+- name: CriticalImageVulnerability
+  rules:
+  - alert: CriticalImageVulnerability
+    expr: max without (pod) (max by (pod) (kube_pod_container_status_running > 0) * on (pod) group_right() max by (pod, namespace, container, image) (kube_pod_container_info) * on (image) group_left(name, tag) aws_ecr_image_scan_severity_count{severity=~"CRITICAL"})
+    for: 1m
+    labels:
+      severity: warning
+      type: security-alert
+    annotations:
+      summary: ':skull_and_crossbones: An image is running with *CRITICAL* vulnerabilities in: *{{ $labels.namespace }}*'
+      description: 'Image: {{ $labels.image }} is running with *CRITICAL* vulnerabilities. The base image should be reviewed and updated as required.'
+```
 
 ### Required IAM Permissions
 You'll require a role with the foloowing IAM permissions:
