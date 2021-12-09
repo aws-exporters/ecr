@@ -22,16 +22,10 @@ class ECRMetricsCollector:
             registry_id or _ecr_client().describe_registry()["registryId"]
         )
         self.repocache = TTLCache(1, 86400)
-        self.imagecache = TTLCache(1000, 86400)
+        self.imagecache = TTLCache(10000, 86400)
 
     def collect(self):
-        repositories = self.repocache.get("cache")
-
-        if repositories is None:
-            self.refresh_repository_cache()
-            repositories = self.repocache.get("cache")
-        else:
-            self.logger.debug("fetched repositories from cache")
+        repositories = self.repocache.get("cache", [])
 
         repository_count_metric = GaugeMetricFamily(
             "aws_ecr_repository_count",
@@ -89,13 +83,7 @@ class ECRMetricsCollector:
         )
 
         for repo in repositories:
-            images = self.imagecache.get(repo["repositoryName"])
-
-            if images is None:
-                self.refresh_image_cache(repositories)
-                images = self.imagecache.get(repo["repositoryName"])
-            else:
-                self.logger.debug(f"fetched {repo['repositoryName']} images from cache")
+            images = self.imagecache.get(repo["repositoryName"], [])
 
             for image in images:
                 tags = image.get("imageTags")
@@ -158,7 +146,7 @@ class ECRMetricsCollector:
         repositories = [
             repo for x in list(repository_iterator) for repo in x["repositories"]
         ]
-        self.logger.debug(f"caching {len(repositories)} repositories")
+        self.logger.info(f"caching {len(repositories)} repositories")
         self.repocache["cache"] = repositories
 
     def refresh_image_cache(self, repositories, repository_name=""):
@@ -185,3 +173,4 @@ class ECRMetricsCollector:
         self.refresh_repository_cache()
         repositories = self.repocache.get("cache")
         self.refresh_image_cache(repositories)
+        self.logger.info("cache refresh complete")

@@ -17,7 +17,7 @@ def config_from_env():
     config["host"] = os.getenv("APP_HOST", "0.0.0.0")
     config["log_level"] = os.getenv("LOG_LEVEL", "INFO")
     config["registry_id"] = os.getenv("ECR_REGISTRY_ID", None)
-    config["refresh_interval"] = int(os.getenv("CACHE_REFRESH_INTERVAL", 600))
+    config["refresh_interval"] = int(os.getenv("CACHE_REFRESH_INTERVAL", 1800))
 
     return config
 
@@ -74,11 +74,14 @@ def main(config):
         )
         loop_count = 0
         while not shutdown:
+            if loop_count == 0:
+                ecr_collector.refresh_caches()
+            
             loop_count += 1
             time.sleep(1)
 
+            # reset loop every refresh_interval seconds
             if loop_count >= config["refresh_interval"]:
-                ecr_collector.refresh_caches()
                 loop_count = 0
 
         logger.info("exporter has shutdown")
