@@ -18,7 +18,7 @@ dependencies = [
 
 setup(
     name="ecr_exporter",
-    version="0.1.5",
+    version="0.1.4",
     url="https://github.com/aws-exporters/ecr",
     license="MIT",
     author="Tim Birkett",
