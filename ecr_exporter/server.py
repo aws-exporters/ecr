@@ -76,7 +76,7 @@ def main(config):
         while not shutdown:
             if loop_count == 0:
                 ecr_collector.refresh_caches()
-            
+
             loop_count += 1
             time.sleep(1)
 
