@@ -28,7 +28,7 @@ Configuration with environment variables:
 | -------- | ----------- | ------- | ------- |
 | `APP_PORT` | The port to expose the exporter on | `9000` | `8080` |
 | `APP_HOST` | The host to bind the application to | `0.0.0.0` | `localhost` |
-| `CACHE_REFRESH_INTERVAL` | How many seconds to wait before refreshing caches in the background | `600` | `3600` |
+| `CACHE_REFRESH_INTERVAL` | How many seconds to wait before refreshing caches in the background | `1800` | `3600` |
 | `ECR_REGISTRY_ID` | The ID of the registry to export metrics for | `current AWS account` | `112233445566` |
 | `LOG_LEVEL` | How much or little logging do you want | `INFO` | `DEBUG` |
 
