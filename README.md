@@ -154,7 +154,7 @@ groups:
 - name: CriticalImageVulnerability
   rules:
   - alert: CriticalImageVulnerability
-    expr: max without (pod) (max by (pod) (kube_pod_container_status_running > 0) * on (pod) group_right() max by (pod, namespace, container, image) (kube_pod_container_info) * on (image) group_left(name, tag) aws_ecr_image_scan_severity_count{severity=~"CRITICAL"})
+    expr: max without (pod) (max by (pod) (kube_pod_container_status_running > 0) * on (pod) group_right() max by (pod, namespace, container, image) (kube_pod_container_info) * on (image) group_left(name, tag) aws_ecr_image_scan_severity_count{severity=~"CRITICAL"}) > 0
     for: 1m
     labels:
       severity: warning
