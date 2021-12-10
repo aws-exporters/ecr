@@ -19,7 +19,7 @@ Kubernetes workload availability and Istio traffic metrics.
 This exporter makes use of `boto3` to query ECR for repositories and images.
 
 To be kind to the AWS APIs, results are cached and refreshed in the background every
-10 minutes (by default).
+30 minutes (by default).
 
 ### Configuration
 Configuration with environment variables:
