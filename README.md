@@ -66,11 +66,11 @@ aws_ecr_repository_info{encryption_type="AES256",name="parcel-bird",registry_id=
 ```
 # HELP aws_ecr_image_size_in_bytes The size of an image in bytes
 # TYPE aws_ecr_image_size_in_bytes gauge
-aws_ecr_image_size_in_bytes{digest="sha256:046c3c95cfd4ab660947885571130d34fef6fd5ddabb3ef84ac7fd7b79e4b8f1",name="flimflam",registry_id="112233445566",tag="1df508a3"} 9.1320109e+07
-aws_ecr_image_size_in_bytes{digest="sha256:10bcbc280f1bc017e767a2fc1ecb37085979dd0807fe312411ee9d3abc78f0b6",name="flimflam",registry_id="112233445566",tag="v1.0.41"} 9.1054438e+07
-aws_ecr_image_size_in_bytes{digest="sha256:b869d1ffa62b8aba6ac3e26056acacf276425287513bcc77317fa9d2b607c054",name="flimflam",registry_id="112233445566",tag="8fd066ee"} 9.1161959e+07
-aws_ecr_image_size_in_bytes{digest="sha256:9f47a709e9bea292ce1906f216df5f080493403b45c5b3e9fbe43e1c10733da6",name="flipflop",registry_id="112233445566",tag="v0.0.2"} 2.46800685e+08
-aws_ecr_image_size_in_bytes{digest="sha256:9f47a709e9bea292ce1906f216df5f080493403b45c5b3e9fbe43e1c10733da6",name="flipflop",registry_id="112233445566",tag="v0.0.1"} 2.46800685e+08
+aws_ecr_image_size_in_bytes{digest="sha256:046c3c95cfd4ab660947885571130d34fef6fd5ddabb3ef84ac7fd7b79e4b8f1",image="112233445566.dkr.ecr.eu-west-1.amazonaws.com/flimflam:1df508a3",name="flimflam",registry_id="112233445566",tag="1df508a3"} 9.1320109e+07
+aws_ecr_image_size_in_bytes{digest="sha256:10bcbc280f1bc017e767a2fc1ecb37085979dd0807fe312411ee9d3abc78f0b6",image="112233445566.dkr.ecr.eu-west-1.amazonaws.com/flimflam:v1.0.41",name="flimflam",registry_id="112233445566",tag="v1.0.41"} 9.1054438e+07
+aws_ecr_image_size_in_bytes{digest="sha256:b869d1ffa62b8aba6ac3e26056acacf276425287513bcc77317fa9d2b607c054",image="112233445566.dkr.ecr.eu-west-1.amazonaws.com/flimflam:8fd066ee",name="flimflam",registry_id="112233445566",tag="8fd066ee"} 9.1161959e+07
+aws_ecr_image_size_in_bytes{digest="sha256:9f47a709e9bea292ce1906f216df5f080493403b45c5b3e9fbe43e1c10733da6",image="112233445566.dkr.ecr.eu-west-1.amazonaws.com/flipflop:v0.0.2",name="flipflop",registry_id="112233445566",tag="v0.0.2"} 2.46800685e+08
+aws_ecr_image_size_in_bytes{digest="sha256:9f47a709e9bea292ce1906f216df5f080493403b45c5b3e9fbe43e1c10733da6",image="112233445566.dkr.ecr.eu-west-1.amazonaws.com/flipflop:v0.0.1",name="flipflop",registry_id="112233445566",tag="v0.0.1"} 2.46800685e+08
 ....
 ....
 ```
@@ -82,9 +82,9 @@ aws_ecr_image_size_in_bytes{digest="sha256:9f47a709e9bea292ce1906f216df5f0804934
 ```
 # HELP aws_ecr_image_pushed_at_timestamp_seconds The unix timestamp that this image was pushed at
 # TYPE aws_ecr_image_pushed_at_timestamp_seconds gauge
-aws_ecr_image_pushed_at_timestamp_seconds{digest="sha256:046c3c95cfd4ab660947885571130d34fef6fd5ddabb3ef84ac7fd7b79e4b8f1",name="chimunk",registry_id="486979256902",tag="1df508a3"} 1.601994911e+09
-aws_ecr_image_pushed_at_timestamp_seconds{digest="sha256:10bcbc280f1bc017e767a2fc1ecb37085979dd0807fe312411ee9d3abc78f0b6",name="savage-lands",registry_id="486979256902",tag="v1.0.41"} 1.593518011e+09
-aws_ecr_image_pushed_at_timestamp_seconds{digest="sha256:b869d1ffa62b8aba6ac3e26056acacf276425287513bcc77317fa9d2b607c054",name="luna-tuna",registry_id="486979256902",tag="8fd066ee"} 1.596207388e+09
+aws_ecr_image_pushed_at_timestamp_seconds{digest="sha256:046c3c95cfd4ab660947885571130d34fef6fd5ddabb3ef84ac7fd7b79e4b8f1",image="112233445566.dkr.ecr.eu-west-1.amazonaws.com/chimunk:1df508a3,name="chimunk",registry_id="112233445566",tag="1df508a3"} 1.601994911e+09
+aws_ecr_image_pushed_at_timestamp_seconds{digest="sha256:10bcbc280f1bc017e767a2fc1ecb37085979dd0807fe312411ee9d3abc78f0b6",image="112233445566.dkr.ecr.eu-west-1.amazonaws.com/savage-lands:v1.0.41,name="savage-lands",registry_id="112233445566",tag="v1.0.41"} 1.593518011e+09
+aws_ecr_image_pushed_at_timestamp_seconds{digest="sha256:b869d1ffa62b8aba6ac3e26056acacf276425287513bcc77317fa9d2b607c054",image="112233445566.dkr.ecr.eu-west-1.amazonaws.com/luna-tuna:8fd066ee,name="luna-tuna",registry_id="112233445566",tag="8fd066ee"} 1.596207388e+09
 ....
 ....
 ```
@@ -96,14 +96,14 @@ aws_ecr_image_pushed_at_timestamp_seconds{digest="sha256:b869d1ffa62b8aba6ac3e26
 ```
 # HELP aws_ecr_image_scan_severity_count ECR image scan summary results
 # TYPE aws_ecr_image_scan_severity_count gauge
-aws_ecr_image_scan_severity_count{digest="sha256:0b26628c113374546c4790e01bce65c3f4642db063286f16fe13e256923b2689",name="flimflam",registry_id="112233445566",severity="MEDIUM",tag="5a35d50d"} 5.0
-aws_ecr_image_scan_severity_count{digest="sha256:a910ed7e15cb5fc7e5f0f2294f8028b56689be563bd1d352a4254197739dfa8e",name="flipflop",registry_id="112233445566",severity="MEDIUM",tag="2faa6445"} 3.0
-aws_ecr_image_scan_severity_count{digest="sha256:a910ed7e15cb5fc7e5f0f2294f8028b56689be563bd1d352a4254197739dfa8e",name="flipflop",registry_id="112233445566",severity="INFORMATIONAL",tag="2faa6445"} 5.0
-aws_ecr_image_scan_severity_count{digest="sha256:a910ed7e15cb5fc7e5f0f2294f8028b56689be563bd1d352a4254197739dfa8e",name="flipflop",registry_id="112233445566",severity="LOW",tag="2faa6445"} 14.0
-aws_ecr_image_scan_severity_count{digest="sha256:981a9c17106eee1099d815f82dfb45f4e8d016a63816fec92f290f1af0117c37",name="birdbath",registry_id="112233445566",severity="MEDIUM",tag="227c8031"} 4.0
-aws_ecr_image_scan_severity_count{digest="sha256:981a9c17106eee1099d815f82dfb45f4e8d016a63816fec92f290f1af0117c37",name="birdbath",registry_id="112233445566",severity="INFORMATIONAL",tag="227c8031"} 5.0
-aws_ecr_image_scan_severity_count{digest="sha256:981a9c17106eee1099d815f82dfb45f4e8d016a63816fec92f290f1af0117c37",name="birdbath",registry_id="112233445566",severity="LOW",tag="227c8031"} 16.0
-aws_ecr_image_scan_severity_count{digest="sha256:f340879c042e88e08d7540c7ec26fb0895814743aefbdd4e62f63b5e41e9f1cf",name="birdbath",registry_id="112233445566",severity="MEDIUM",tag="77b36acb"} 4.0
+aws_ecr_image_scan_severity_count{digest="sha256:0b26628c113374546c4790e01bce65c3f4642db063286f16fe13e256923b2689",image="112233445566.dkr.ecr.eu-west-1.amazonaws.com/flimflam:5a35d50d",name="flimflam",registry_id="112233445566",severity="MEDIUM",tag="5a35d50d"} 5.0
+aws_ecr_image_scan_severity_count{digest="sha256:a910ed7e15cb5fc7e5f0f2294f8028b56689be563bd1d352a4254197739dfa8e",image="112233445566.dkr.ecr.eu-west-1.amazonaws.com/flipflop:2faa6445",name="flipflop",registry_id="112233445566",severity="MEDIUM",tag="2faa6445"} 3.0
+aws_ecr_image_scan_severity_count{digest="sha256:a910ed7e15cb5fc7e5f0f2294f8028b56689be563bd1d352a4254197739dfa8e",image="112233445566.dkr.ecr.eu-west-1.amazonaws.com/flipflop:2faa6445",name="flipflop",registry_id="112233445566",severity="INFORMATIONAL",tag="2faa6445"} 5.0
+aws_ecr_image_scan_severity_count{digest="sha256:a910ed7e15cb5fc7e5f0f2294f8028b56689be563bd1d352a4254197739dfa8e",image="112233445566.dkr.ecr.eu-west-1.amazonaws.com/flipflop:2faa6445",name="flipflop",registry_id="112233445566",severity="LOW",tag="2faa6445"} 14.0
+aws_ecr_image_scan_severity_count{digest="sha256:981a9c17106eee1099d815f82dfb45f4e8d016a63816fec92f290f1af0117c37",image="112233445566.dkr.ecr.eu-west-1.amazonaws.com/birdbath:227c8031",name="birdbath",registry_id="112233445566",severity="MEDIUM",tag="227c8031"} 4.0
+aws_ecr_image_scan_severity_count{digest="sha256:981a9c17106eee1099d815f82dfb45f4e8d016a63816fec92f290f1af0117c37",image="112233445566.dkr.ecr.eu-west-1.amazonaws.com/birdbath:227c8031",name="birdbath",registry_id="112233445566",severity="INFORMATIONAL",tag="227c8031"} 5.0
+aws_ecr_image_scan_severity_count{digest="sha256:981a9c17106eee1099d815f82dfb45f4e8d016a63816fec92f290f1af0117c37",image="112233445566.dkr.ecr.eu-west-1.amazonaws.com/birdbath:227c8031",name="birdbath",registry_id="112233445566",severity="LOW",tag="227c8031"} 16.0
+aws_ecr_image_scan_severity_count{digest="sha256:f340879c042e88e08d7540c7ec26fb0895814743aefbdd4e62f63b5e41e9f1cf",image="112233445566.dkr.ecr.eu-west-1.amazonaws.com/birdbath:227c8031",name="birdbath",registry_id="112233445566",severity="MEDIUM",tag="77b36acb"} 4.0
 ....
 ....
 ```
@@ -115,9 +115,9 @@ aws_ecr_image_scan_severity_count{digest="sha256:f340879c042e88e08d7540c7ec26fb0
 ```
 # HELP aws_ecr_image_scan_completed_at_timestamp_seconds The unix timestamp when the scan was completed
 # TYPE aws_ecr_image_scan_completed_at_timestamp_seconds gauge
-aws_ecr_image_scan_completed_at_timestamp_seconds{digest="sha256:0b26628c113374546c4790e01bce65c3f4642db063286f16fe13e256923b2689",name="moose-juice",registry_id="486979256902",tag="5a35d50d"} 1.617208126e+09
-aws_ecr_image_scan_completed_at_timestamp_seconds{digest="sha256:a910ed7e15cb5fc7e5f0f2294f8028b56689be563bd1d352a4254197739dfa8e",name="super-goggles",registry_id="486979256902",tag="2faa6445"} 1.618313952e+09
-aws_ecr_image_scan_completed_at_timestamp_seconds{digest="sha256:981a9c17106eee1099d815f82dfb45f4e8d016a63816fec92f290f1af0117c37",name="foot-massage",registry_id="486979256902",tag="227c8031"} 1.622629411e+09
+aws_ecr_image_scan_completed_at_timestamp_seconds{digest="sha256:0b26628c113374546c4790e01bce65c3f4642db063286f16fe13e256923b2689",image="112233445566.dkr.ecr.eu-west-1.amazonaws.com/moose-juice:5a35d50d",name="moose-juice",registry_id="112233445566",tag="5a35d50d"} 1.617208126e+09
+aws_ecr_image_scan_completed_at_timestamp_seconds{digest="sha256:a910ed7e15cb5fc7e5f0f2294f8028b56689be563bd1d352a4254197739dfa8e",image="112233445566.dkr.ecr.eu-west-1.amazonaws.com/super-goggles:2faa6445",name="super-goggles",registry_id="112233445566",tag="2faa6445"} 1.618313952e+09
+aws_ecr_image_scan_completed_at_timestamp_seconds{digest="sha256:981a9c17106eee1099d815f82dfb45f4e8d016a63816fec92f290f1af0117c37",image="112233445566.dkr.ecr.eu-west-1.amazonaws.com/foot-massage:227c8031",name="foot-massage",registry_id="112233445566",tag="227c8031"} 1.622629411e+09
 ....
 ....
 ```
@@ -189,10 +189,6 @@ You'll require a role with the foloowing IAM permissions:
 ### Error Handling
 Currently, there is very little in the way of error handling and all stack traces
 are thrown out to the console. This will be improved as issues are encountered.
-
-### Result Paging
-Paging of results for huge repos is not currently implemented. All requests have
-`maxResults` set to the maximum of 1000.
 
 ### Running Locally
 There are a number of ways to run this project locally. You'll need to have your
