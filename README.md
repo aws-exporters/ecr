@@ -168,7 +168,7 @@ groups:
 ```
 
 ### Required IAM Permissions
-You'll require a role with the foloowing IAM permissions:
+You'll require a role with the following IAM permissions:
 ```
 {
   "Version": "2012-10-17",
